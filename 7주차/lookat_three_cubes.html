@@ -1,0 +1,63 @@
+<html>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute  vec4 vColor;
+varying vec4 fColor;
+
+uniform mat4 modelView;
+
+void main() 
+{
+\
+    // Remeber: thse matrices are column-major
+
+	mat4 sxyz = mat4( 0.5, 0.0,  0.0, 0.0,
+		    0.0,  0.5, 0.0, 0.0,
+		    0.0, 0.0, 0.5, 0.0,
+		    0.0,  0.0, 0.0, 1.0 );
+
+    fColor = vColor;
+    gl_Position = sxyz * modelView * vPosition;
+} 
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+   
+varying vec4 fColor;
+
+void
+main()
+{
+    gl_FragColor = fColor;
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="lookat_three_cubes.js"></script>
+
+<body>
+
+
+
+<h3>ID : 201935108 Name : 이정하</h3>
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+   
+<br/>
+
+<button id = "Button1">Increase R</button>
+<button id = "Button2">Decrease R</button>
+<button id = "Button3">Increase theta</button>
+<button id = "Button4">Decrease theta</button>
+<button id = "Button5">Increase phi</button>
+<button id = "Button6">Decrease phi</button>
+
+</body>
+</html>
