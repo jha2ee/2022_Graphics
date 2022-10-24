@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec2 vPosition;
+uniform vec2 vResolution;
+
+void
+main()
+{
+    vec2 zeroToOne = vPosition/vResolution;
+    
+    vec2 zeroToTwo = zeroToOne * 2.0;
+
+    // Convert from 0 -> 2 to -1 -> +1
+    vec2 clipSpace = zeroToTwo - 1.0;
+    
+
+    gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+uniform vec4 color;
+
+void
+main()
+{
+    gl_FragColor = color;
+
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="exer6.js"></script>
+</head>
+
+<body>
+    <h3>ID : 201935108 Name : 이정하</h3>
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+</body>
+</html>
