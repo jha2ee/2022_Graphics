@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute vec4 vPosition;
+attribute vec4 vNormal;
+
+varying vec4 fColor;
+
+uniform vec4 ambientProduct, diffuseProduct, specularProduct;
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+uniform vec4 lightPosition;
+uniform float shininess;
+
+
+void
+main()
+{
+    vec3 pos = (modelViewMatrix * vPosition).xyz;
+
+    //fixed light vPosition
+    vec3 light = lightPosition.xyz;
+
+    vec3 L;
+    if (lightPosition.w == 0.0) L = normalize((modelViewMatrix * lightPosition) .xyz);
+    else L = normalize( (modelViewMatrix * lightPosition) .xyz - pos);
+
+    //Because the eye point the is at the origin, the vector from the vertex position to the eye is
+    vec3 E = -normalize(pos);
+
+    //halfway vector
+    vec3 H = normalize(L + E);
+
+    vec3 N = normalize((modelViewMatrix*vNormal) .xyz);
+
+    vec4 ambient = ambientProduct;
+
+    float Kd = max( dot(L, N), 0.0);
+    vec4 diffuse = Kd * diffuseProduct;
+
+    float Ks = pow( max(dot(N, H), 0.0), shininess);
+    vec4 specular = Ks * specularProduct;
+
+    if (dot(L, N) < 0.0) {
+        specular = vec4(0.0, 0.0, 0.0, 1.0);
+    }
+
+    gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+    fColor = ambient + diffuse + specular;
+    fColor.a = 1.0;
+
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+
+varying vec4 fColor;
+
+void
+main()
+{
+
+    gl_FragColor = fColor;
+}
+</script>
+
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="Spherepervertexshading.js"></script>
+
+<body>
+<h3>ID : 201935108 Name : 이정하</h3>
+<p> </p>
+<button id = "Button0">Increase R</button>
+<button id = "Button1">Decrease R</button>
+<p> </p>
+<button id = "Button2">Increase phi</button>
+<button id = "Button3">Decrease phi</button>
+<p> </p>
+<button id = "Button4">Increase subdivisions</button>
+<button id = "Button5">Decrease subdivisions</button>
+
+
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+</body>
+</html>
