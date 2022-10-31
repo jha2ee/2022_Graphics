@@ -39,7 +39,7 @@ window.onload = function init()
 
 
 	const loader = new THREE.GLTFLoader();
-	loader.load('./model/scene.gltf', function(gltf){
+	loader.load('./model/coo2.gltf', function(gltf){
 	  car = gltf.scene.children[0];
 	  car.scale.set(0.5,0.5,0.5);
 	  scene.add(gltf.scene);
